@@ -10,6 +10,22 @@ from tensorflow.python import keras
 
 from keras.models import load_model
 
+from flask import Flask,jsonify,request
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+
+@app.route("/")
+def askBot():
+    user_input = request.args.get("input")
+    results = predict_class(user_input)
+    tag = results[0]['intent']
+    intent = next(item for item in intents["intents"] if item["tag"] == tag)
+    response = "Bot: " + random.choice(intent["responses"])
+    return jsonify(message = response)
+    # print("Bot: " + random.choice(intent["responses"]))
+
 lemmatizer = WordNetLemmatizer()
 intents = json.loads(open('intents.json').read())
 
@@ -17,6 +33,8 @@ words = pickle.load(open('words.pkl', 'rb'))
 classes = pickle.load(open('classes.pkl', 'rb'))
 
 model = load_model('chatbot_model.h5')
+
+
 
 
 def clean_up_sentence(sentence):
@@ -69,4 +87,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    app.run(host="localhost", port=5001, debug=True)
