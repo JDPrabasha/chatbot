@@ -3,10 +3,14 @@ import Message from "./Message";
 import Reply from "./Reply";
 
 function Chat() {
-  const [messages, setMessages] = useState([1, 1, 1]);
+  const [messages, setMessages] = useState([]);
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
-      setMessages([...messages, event.target.value]);
+      setMessages([
+        ...messages,
+        { type: "message", value: event.target.value },
+        { type: "reply", value: "Reply" },
+      ]);
       event.target.value = "";
     }
   };
@@ -15,11 +19,14 @@ function Chat() {
       <h1 className="mx-auto text-center text-2xl font-semibold ">
         🤖 chatbot
       </h1>
-      {messages.map((message) => (
-        <Message message={message} />
-      ))}
+      {messages.map((message) =>
+        message.type == "message" ? (
+          <Message message={message.value} />
+        ) : (
+          <Reply />
+        )
+      )}
 
-      <Reply />
       <div className="flex justify-center">
         <div className="fixed bottom-4 xl:w-96">
           <label
