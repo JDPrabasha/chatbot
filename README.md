@@ -5,9 +5,16 @@ This repository contains code for a chatbot application that responds to user in
 ## Prerequisites
 
 - nltk
-- tensorflow
-- numpy
+- TensorFlow
+- Numpy
+- Flask
 
 ## How to Run
 
-Run chatbot.py to communicate with the chatbot
+Run chatbot.py to start the flask server
+
+Direct chatbot input to the following route, using an "input" query parameter to set chatbot input
+
+Eg: http://localhost:5001?input="Hello"
+
+
