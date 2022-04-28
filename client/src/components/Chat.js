@@ -1,29 +1,29 @@
-import { React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import Message from "./Message";
 import Reply from "./Reply";
+import { getReply } from "../services/api";
 
 function Chat() {
-  const axios = require("axios");
   const [messages, setMessages] = useState([]);
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       const newMessage = event.target.value;
+
       setMessages([
         ...messages,
         { type: "message", value: event.target.value },
       ]);
       event.target.value = "";
-      getReply(newMessage);
+
+      getReply(newMessage).then((res) => {
+        setMessages((messages) => [
+          ...messages,
+          { type: "reply", value: res.data.message },
+        ]);
+      });
     }
   };
-  const getReply = (input) => {
-    axios("http://localhost:5001?input=" + input).then((res) => {
-      setMessages((messages) => [
-        ...messages,
-        { type: "reply", value: res.data.message },
-      ]);
-    });
-  };
+
   return (
     <div className="w-1/2 mx-auto bg-slate-100   bg-grey-lighter min-h-screen">
       <h1 className="mx-auto text-center text-2xl font-semibold ">
