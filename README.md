@@ -13,8 +13,10 @@ This repository contains code for a chatbot application that responds to user in
 
 Run chatbot.py to start the flask server
 
-Direct chatbot input to the following route, using an "input" query parameter to set chatbot input
+Then cd into the Client folder and run 
 
-Eg: http://localhost:5001?input="Hello"
+### `npm start`
+
+to access the application on your local browser
 
 
