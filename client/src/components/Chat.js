@@ -3,16 +3,26 @@ import Message from "./Message";
 import Reply from "./Reply";
 
 function Chat() {
+  const axios = require("axios");
   const [messages, setMessages] = useState([]);
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
+      const newMessage = event.target.value;
       setMessages([
         ...messages,
         { type: "message", value: event.target.value },
-        { type: "reply", value: "Reply" },
       ]);
       event.target.value = "";
+      getReply(newMessage);
     }
+  };
+  const getReply = (input) => {
+    axios("http://localhost:5001?input=" + input).then((res) => {
+      setMessages((messages) => [
+        ...messages,
+        { type: "reply", value: res.data.message },
+      ]);
+    });
   };
   return (
     <div className="w-1/2 mx-auto bg-slate-100   bg-grey-lighter min-h-screen">
@@ -23,7 +33,7 @@ function Chat() {
         message.type == "message" ? (
           <Message message={message.value} />
         ) : (
-          <Reply />
+          <Reply message={message.value} />
         )
       )}
 
