@@ -15,6 +15,12 @@ Run chatbot.py to start the flask server
 
 Then cd into the Client folder and run 
 
+### `npm install`
+
+to install the required dependancies.
+
+Then run
+
 ### `npm start`
 
 to access the application on your local browser
